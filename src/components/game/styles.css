@@ -1,0 +1,19 @@
+.game_wrapper {
+  width: 306px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cell_wrapper {
+  border: 1px solid grey;
+  height: 100px;
+  width: 100px;
+}
+
+.cell_with_horse {
+  cursor: pointer;
+}
+
+.chosen_horse {
+  background-color: green;
+}
