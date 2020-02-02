@@ -3,13 +3,19 @@ import ChessHorse from "../icons/ChessHorse";
 
 import "./styles.css";
 
-const Game = ({ conditions, onChooseHorse, chosenHorsePosition }) => {
+const GameField = ({ conditions, onChooseHorse, chosenHorsePosition }) => {
   const horseClickHandler = position => () => onChooseHorse(position);
 
-  const constructClassName = (horseColor, horsePosition) => {
+  const constructClassName = (horseColor, horsePosition, index) => {
     let baseClassName = "cell_wrapper";
     if (horseColor) baseClassName += " cell_with_horse";
-    if (horsePosition === chosenHorsePosition) baseClassName += " chosen_horse";
+    if (horsePosition === chosenHorsePosition.index)
+      baseClassName += " chosen_horse";
+    if (
+      !horseColor &&
+      chosenHorsePosition.avaliableCellsIndexes.includes(index)
+    )
+      baseClassName += " avaliable_for_move";
     return baseClassName;
   };
 
@@ -18,7 +24,7 @@ const Game = ({ conditions, onChooseHorse, chosenHorsePosition }) => {
       {conditions.map((horse, index) => (
         <div
           key={index}
-          className={constructClassName(horse.color, horse.position)}
+          className={constructClassName(horse.color, horse.position, index)}
         >
           {horse.color && (
             <ChessHorse
@@ -32,4 +38,4 @@ const Game = ({ conditions, onChooseHorse, chosenHorsePosition }) => {
   );
 };
 
-export default Game;
+export default GameField;

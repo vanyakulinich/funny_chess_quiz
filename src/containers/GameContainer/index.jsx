@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Game from "../../components/game";
+import GameField from "../../components/gameField";
 
 const horses = {
   black: "#000000",
@@ -23,15 +23,38 @@ const createStartConditions = () => {
 const GameContainer = () => {
   const [state, changeState] = useState({
     currentConditions: createStartConditions(),
-    chosenHorsePosition: null
+    chosenHorsePosition: {
+      index: null,
+      avaliableCellsIndexes: []
+    }
   });
 
-  const onChooseHorse = chosenHorsePosition =>
-    changeState({ ...state, chosenHorsePosition });
+  const calcAvaliablePositions = horseIndex => {
+    const possibleMoves = [1, -1, 5, -5, 7, -7];
+    const avaliablePositions = [];
+    possibleMoves.forEach((move, idx) => {
+      if (
+        state.currentConditions[horseIndex + move] &&
+        !state.currentConditions[horseIndex + move].color
+      ) {
+        avaliablePositions.push(horseIndex + move);
+      }
+    });
+    return avaliablePositions;
+  };
+
+  const onChooseHorse = position =>
+    changeState({
+      ...state,
+      chosenHorsePosition: {
+        avaliableCellsIndexes: calcAvaliablePositions(position),
+        index: position
+      }
+    });
 
   const { currentConditions, chosenHorsePosition } = state;
   return (
-    <Game
+    <GameField
       conditions={currentConditions}
       onChooseHorse={onChooseHorse}
       chosenHorsePosition={chosenHorsePosition}
