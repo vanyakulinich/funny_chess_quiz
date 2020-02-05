@@ -1,38 +1,41 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import GameField from "../../components/gameField";
 
-const horses = {
+const horsesTypes = {
   black: "#000000",
   white: "#ffffff",
   noHorse: ""
 };
 
-const createStartConditions = () => {
-  const { black, white, noHorse } = horses;
+const createStartPositions = () => {
+  const { black, white, noHorse } = horsesTypes;
   const whiteHorsesPos = [0, 1, 2];
   const blackHorsesPos = [9, 10, 11];
   return new Array(12).fill(0).map((el, index) => {
-    if (whiteHorsesPos.includes(index))
-      return { color: white, position: index };
-    if (blackHorsesPos.includes(index))
-      return { color: black, position: index };
-    return { color: noHorse };
+    const horseObj = { position: index, color: noHorse };
+    if (whiteHorsesPos.includes(index)) horseObj.color = white;
+    if (blackHorsesPos.includes(index)) horseObj.color = black;
+    return horseObj;
   });
+};
+
+const defaultChosenHorsePosition = {
+  index: null,
+  color: "",
+  avaliableCellsIndexes: []
 };
 
 const GameContainer = () => {
   const [state, changeState] = useState({
-    currentConditions: createStartConditions(),
-    chosenHorsePosition: {
-      index: null,
-      avaliableCellsIndexes: []
-    }
+    currentConditions: createStartPositions(),
+    chosenHorsePosition: { ...defaultChosenHorsePosition }
   });
 
   const calcAvaliablePositions = horseIndex => {
+    // needs fix
     const possibleMoves = [1, -1, 5, -5, 7, -7];
     const avaliablePositions = [];
-    possibleMoves.forEach((move, idx) => {
+    possibleMoves.forEach(move => {
       if (
         state.currentConditions[horseIndex + move] &&
         !state.currentConditions[horseIndex + move].color
@@ -43,14 +46,35 @@ const GameContainer = () => {
     return avaliablePositions;
   };
 
-  const onChooseHorse = position =>
+  const onChooseHorse = horse =>
     changeState({
       ...state,
       chosenHorsePosition: {
-        avaliableCellsIndexes: calcAvaliablePositions(position),
-        index: position
+        avaliableCellsIndexes: calcAvaliablePositions(horse.position),
+        index: horse.position,
+        color: horse.color
       }
     });
+
+  const moveHorseToCell = index => {
+    let movingHorseColor = "";
+    const newConditions = state.currentConditions.map(el => {
+      if (el.position === index) el.color = state.chosenHorsePosition.color;
+      console.log(el);
+      if (el.position === state.chosenHorsePosition.index) {
+        movingHorseColor = el.color;
+        console.log({ movingHorseColor });
+        el.color = horsesTypes.noHorse;
+      }
+
+      return el;
+    });
+    changeState({
+      ...state,
+      currentConditions: [...newConditions],
+      chosenHorsePosition: { ...defaultChosenHorsePosition }
+    });
+  };
 
   const { currentConditions, chosenHorsePosition } = state;
   return (
@@ -58,6 +82,7 @@ const GameContainer = () => {
       conditions={currentConditions}
       onChooseHorse={onChooseHorse}
       chosenHorsePosition={chosenHorsePosition}
+      moveHorseToCell={moveHorseToCell}
     />
   );
 };
