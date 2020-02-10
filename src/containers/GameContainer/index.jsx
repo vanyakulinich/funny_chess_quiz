@@ -32,10 +32,27 @@ const GameContainer = () => {
   });
 
   const calcAvaliablePositions = horseIndex => {
-    // needs fix
-    const possibleMoves = [1, -1, 5, -5, 7, -7];
+    // dirty avaliable moves calc logic, needs refactoring
+    const anywayPossibleMoves = [5, -5, 7, -7];
+    if (horseIndex === 2 || horseIndex === 9) anywayPossibleMoves.splice(2, 2);
+    const specialMoves = [
+      { idx: 2, possibleMove: 3 },
+      { idx: 3, possibleMove: 2 },
+      { idx: 6, possibleMove: 5 },
+      { idx: 5, possibleMove: 6 },
+      { idx: 8, possibleMove: 9 },
+      { idx: 9, possibleMove: 8 }
+    ];
     const avaliablePositions = [];
-    possibleMoves.forEach(move => {
+    specialMoves.forEach(el => {
+      if (
+        el.idx === horseIndex &&
+        !state.currentConditions[el.possibleMove].color
+      ) {
+        avaliablePositions.push(el.possibleMove);
+      }
+    });
+    anywayPossibleMoves.forEach(move => {
       if (
         state.currentConditions[horseIndex + move] &&
         !state.currentConditions[horseIndex + move].color
@@ -46,7 +63,7 @@ const GameContainer = () => {
     return avaliablePositions;
   };
 
-  const onChooseHorse = horse =>
+  const onChooseHorse = horse => {
     changeState({
       ...state,
       chosenHorsePosition: {
@@ -55,8 +72,10 @@ const GameContainer = () => {
         color: horse.color
       }
     });
+  };
 
   const moveHorseToCell = index => {
+    console.log({ currentHorse: state.chosenHorsePosition });
     let movingHorseColor = "";
     const newConditions = state.currentConditions.map(el => {
       if (el.position === index) el.color = state.chosenHorsePosition.color;
@@ -77,6 +96,9 @@ const GameContainer = () => {
   };
 
   const { currentConditions, chosenHorsePosition } = state;
+  console.log({ currentConditions });
+  console.log({ chosenHorsePosition });
+
   return (
     <GameField
       conditions={currentConditions}
