@@ -28,7 +28,9 @@ const defaultChosenHorsePosition = {
 const GameContainer = () => {
   const [state, changeState] = useState({
     currentConditions: createStartPositions(),
-    chosenHorsePosition: { ...defaultChosenHorsePosition }
+    chosenHorsePosition: { ...defaultChosenHorsePosition },
+    movesCount: 0,
+    isWinner: false
   });
 
   const calcAvaliablePositions = horseIndex => {
@@ -88,24 +90,51 @@ const GameContainer = () => {
 
       return el;
     });
+    // check win
+    const isWinner = (() => {
+      // TODO
+      return true;
+    })();
+
     changeState({
       ...state,
       currentConditions: [...newConditions],
-      chosenHorsePosition: { ...defaultChosenHorsePosition }
+      chosenHorsePosition: { ...defaultChosenHorsePosition },
+      movesCount: state.movesCount + 1,
+      isWinner
     });
   };
 
-  const { currentConditions, chosenHorsePosition } = state;
-  console.log({ currentConditions });
-  console.log({ chosenHorsePosition });
+  const {
+    currentConditions,
+    chosenHorsePosition,
+    movesCount,
+    isWinner
+  } = state;
+  // console.log({ currentConditions });
+  // console.log({ chosenHorsePosition });
+  console.log({ isWinner });
 
   return (
-    <GameField
-      conditions={currentConditions}
-      onChooseHorse={onChooseHorse}
-      chosenHorsePosition={chosenHorsePosition}
-      moveHorseToCell={moveHorseToCell}
-    />
+    <>
+      {isWinner && <h1>YOU WON!</h1>}
+      <div>Moves made: {movesCount}</div>
+      <GameField
+        conditions={currentConditions}
+        onChooseHorse={onChooseHorse}
+        chosenHorsePosition={chosenHorsePosition}
+        moveHorseToCell={moveHorseToCell}
+      />
+      {isWinner && (
+        <>
+          {movesCount < 20 ? (
+            <h2>New record: {movesCount}</h2>
+          ) : (
+            <h3>Nice try. The record is: 20 moves</h3>
+          )}
+        </>
+      )}
+    </>
   );
 };
 
