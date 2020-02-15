@@ -2,10 +2,13 @@ import React from "react";
 import { ThemeProvider } from "styled-components";
 import GameContainer from "./containers/GameContainer";
 import { GlobalGameStyles, gameTheme } from "./styles/gameTheme";
+import GameContextProvider from "./providers/gameProvider";
 
 const App = () => (
   <ThemeProvider theme={gameTheme}>
-    <GameContainer />
+    <GameContextProvider>
+      <GameContainer />
+    </GameContextProvider>
     <GlobalGameStyles />
   </ThemeProvider>
 );
