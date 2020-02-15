@@ -1,9 +1,13 @@
 import React from "react";
-import "./globalStyles.css";
+import { ThemeProvider } from "styled-components";
 import GameContainer from "./containers/GameContainer";
+import { GlobalGameStyles, gameTheme } from "./styles/gameTheme";
 
-function App() {
-  return <GameContainer />;
-}
+const App = () => (
+  <ThemeProvider theme={gameTheme}>
+    <GameContainer />
+    <GlobalGameStyles />
+  </ThemeProvider>
+);
 
 export default App;
