@@ -29,7 +29,7 @@ const GameContextProvider = ({ children }) => {
   const restartGame = () => changeContext(defaultContext);
 
   const currentContext = {
-    ...context,
+    store: { ...context },
     actions: { selectHorse, moveSelectedHorse, saveGame, restartGame }
   };
 

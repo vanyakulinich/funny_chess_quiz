@@ -1,15 +1,11 @@
-import React, { useContext } from "react";
-import PropTypes from "prop-types";
-import { GameContext } from "../providers/gameProvider";
+import React from "react";
+import useGameStore from "../hooks/useGameStore";
 
 const GameContainer = () => {
-  const ctx = useContext(GameContext);
+  const ctx = useGameStore();
   console.log({ ctx });
+  // TODO: add field and another markup
   return <div>GAME</div>;
 };
-
-GameContainer.propTypes = {};
-
-GameContainer.defaultProps = {};
 
 export default GameContainer;
