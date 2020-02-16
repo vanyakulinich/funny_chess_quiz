@@ -13,9 +13,11 @@ const MainWrapper = styled.div`
 `;
 
 const GameFieldContainer = () => {
-  const { positions, selectedHorse } = useGameStore();
-  const { selectHorse: selectHorseAction } = useGameActions();
-  console.log({ positions, selectedHorse });
+  const { positions, selectedHorse, isWinner } = useGameStore();
+  const {
+    selectHorse: selectHorseAction,
+    moveSelectedHorse: moveSelectedHorseAction
+  } = useGameActions();
 
   const _checkEqualPositions = cellPositionsArr => {
     const { avaliableMoves } = selectedHorse;
@@ -25,14 +27,18 @@ const GameFieldContainer = () => {
     );
   };
 
-  const _checkSelectedCell = ({ rowIdx, cellIdx }) => {
+  const _checkSelectedCell = ([rowIdx, cellIdx]) => {
     const { row, cell } = selectedHorse.position;
     return row === rowIdx && cell === cellIdx;
   };
 
-  const onSelectCell = positionObj => () => {
-    const { horseColor, ...positions } = positionObj;
-    if (horseColor) selectHorseAction(positions);
+  const onSelectCell = positionArr => () => {
+    if (isWinner) return;
+    const [row, cell, horseColor, isAvaliableForMove] = positionArr;
+    if (horseColor) selectHorseAction({ row, cell });
+    if (!horseColor && isAvaliableForMove) {
+      moveSelectedHorseAction({ row, cell });
+    }
   };
 
   return (
@@ -41,20 +47,19 @@ const GameFieldContainer = () => {
         return (
           <GameFieldRow key={shortid.generate(rowIdx)}>
             {row.map((horseColor, cellIdx) => {
+              const cellPosArr = [rowIdx, cellIdx];
+              const isAvaliableForMove = _checkEqualPositions(cellPosArr);
               return (
                 <GameFieldCell
                   key={shortid.generate(cellIdx)}
                   horseColor={horseColor}
-                  onSelectCell={onSelectCell({
-                    row: rowIdx,
-                    cell: cellIdx,
-                    horseColor
-                  })}
-                  isAvaliableForMove={_checkEqualPositions([rowIdx, cellIdx])}
-                  isSelected={_checkSelectedCell({
-                    rowIdx,
-                    cellIdx
-                  })}
+                  isAvaliableForMove={isAvaliableForMove}
+                  isSelected={_checkSelectedCell(cellPosArr)}
+                  onSelectCell={onSelectCell([
+                    ...cellPosArr,
+                    horseColor,
+                    isAvaliableForMove
+                  ])}
                 />
               );
             })}

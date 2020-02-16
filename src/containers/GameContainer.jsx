@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import GameFieldContainer from "./GameFieldContainer";
+import GameFieldContainer from './GameFieldContainer';
+import GameNavContainer from './GameNavContainer';
 
 const GameContainer = () => {
-  // TODO: add field and another markup
   return (
     <>
-      {/* TODO: add title, movesCount, save and restart buttons */}
       <GameFieldContainer />
+      <GameNavContainer />
     </>
   );
 };

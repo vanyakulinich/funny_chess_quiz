@@ -12,9 +12,12 @@ export const gameTheme = {
     green: "green",
     blue: "#2727c9f5",
     black: "#000000",
+    black50: "#00000050",
     white: "#ffffff",
     grey: "#b2b2a9db",
-    steel: "#35544f"
+    grey50: "#b2b2a950",
+    steel: "#35544f",
+    steel50: "#35544f50"
   },
   horses: {
     white: "#ffffff",

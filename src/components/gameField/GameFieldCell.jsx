@@ -27,19 +27,16 @@ const GameFieldCell = ({
   onSelectCell,
   isAvaliableForMove,
   isSelected
-}) => {
-  console.log({ isAvaliableForMove });
-  return (
-    <GameFieldCellWrapper
-      onClick={onSelectCell}
-      isAvaliableForMove={isAvaliableForMove && !horseColor}
-      isSelected={isSelected}
-      withCursor={!!horseColor || isAvaliableForMove}
-    >
-      {horseColor && <ChessHorse color={horseColor} />}
-    </GameFieldCellWrapper>
-  );
-};
+}) => (
+  <GameFieldCellWrapper
+    onClick={onSelectCell}
+    isAvaliableForMove={isAvaliableForMove && !horseColor}
+    isSelected={isSelected}
+    withCursor={!!horseColor || isAvaliableForMove}
+  >
+    {horseColor && <ChessHorse color={horseColor} />}
+  </GameFieldCellWrapper>
+);
 
 GameFieldCell.propTypes = {
   horseColor: PropTypes.string,

@@ -1,21 +1,21 @@
-import { createGamePositions } from "../utils/gameUtils";
+export const DEFAULT_WIN_RECORD = 20;
 
-export const horses = {
+export const HORSES = {
   black: "black",
   white: "white",
   noHorse: ""
 };
 
-const { black, white, noHorse } = horses;
+const { black, white, noHorse } = HORSES;
 
-export const START_GAME_POSITIONS = [
+export const START_GAME_POSITIONS = Object.freeze([
   [white, white, white],
   [noHorse, noHorse, noHorse],
   [noHorse, noHorse, noHorse],
   [black, black, black]
-];
+]);
 
-export const WIN_GAME_POSITIONS = createGamePositions([
+export const WIN_GAME_POSITIONS = Object.freeze([
   [black, black, black],
   [noHorse, noHorse, noHorse],
   [noHorse, noHorse, noHorse],
