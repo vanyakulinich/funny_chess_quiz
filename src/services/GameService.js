@@ -6,8 +6,8 @@ import {
 
 export class GameService {
   getAvaliavbleMovesPositions(currentHorsePositionObj) {
-    const { row, col } = currentHorsePositionObj;
-    const movesMapKey = `${row}${col}`;
+    const { row, cell } = currentHorsePositionObj;
+    const movesMapKey = `${row}${cell}`;
     const avaliableMoves = AVALIABLE_MOVES_MAP[movesMapKey];
     //   TODO
     return avaliableMoves;

@@ -6,7 +6,7 @@ import { START_GAME_POSITIONS } from "../constants/gameDetails";
 const defaultContext = {
   positions: START_GAME_POSITIONS,
   selectedHorse: {
-    position: { row: undefined, col: undefined },
+    position: { row: undefined, cell: undefined },
     avaliableMoves: []
   },
   movesCount: 0
@@ -22,8 +22,12 @@ const GameContextProvider = ({ children }) => {
   const updateContext = updatedPart =>
     changeContext({ ...context, ...updatedPart });
 
-  // TODO: actions
   const selectHorse = positionObj => {
+    const { row, cell } = positionObj;
+    const { position: selectedPos } = context.selectedHorse;
+    // avoids useless selections for same cell
+    if (row === selectedPos.row && cell === selectedPos.cell) return;
+
     const avaliableMoves = gameService.getAvaliavbleMovesPositions(positionObj);
     updateContext({ selectedHorse: { position: positionObj, avaliableMoves } });
   };

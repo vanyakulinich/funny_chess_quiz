@@ -10,11 +10,15 @@ export const gameTheme = {
   },
   color: {
     green: "green",
-    blue: "blue",
+    blue: "#2727c9f5",
     black: "#000000",
     white: "#ffffff",
     grey: "#b2b2a9db",
     steel: "#35544f"
+  },
+  horses: {
+    white: "#ffffff",
+    black: "#000000"
   },
   font: {
     size: {

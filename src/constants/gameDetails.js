@@ -1,9 +1,9 @@
 import { createGamePositions } from "../utils/gameUtils";
 
 export const horses = {
-  black: "b",
-  white: "w",
-  noHorse: "no"
+  black: "black",
+  white: "white",
+  noHorse: ""
 };
 
 const { black, white, noHorse } = horses;
@@ -23,8 +23,8 @@ export const WIN_GAME_POSITIONS = createGamePositions([
 ]);
 
 // prettier-ignore
-export const AVALIABLE_MOVES_MAP = {
-  // each position key is str sum of row and col
+export const AVALIABLE_MOVES_MAP = Object.freeze({
+  // each position key is str sum of row and cell positions
   // each position key value is array of positions [[row, col],..]
   "00": [[1, 2], [2, 1]],
   "01": [[2, 0], [2, 2]],
@@ -38,4 +38,4 @@ export const AVALIABLE_MOVES_MAP = {
   "30": [[1,1], [2,2]],
   "31": [[1,0], [1,2]],
   "32": [[2,0], [1,1]]
-};
+});
