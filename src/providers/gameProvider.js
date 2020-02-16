@@ -6,7 +6,7 @@ import { START_GAME_POSITIONS } from "../constants/gameDetails";
 const defaultContext = {
   positions: START_GAME_POSITIONS,
   selectedHorse: {
-    position: undefined,
+    position: { row: undefined, col: undefined },
     avaliableMoves: []
   },
   movesCount: 0
@@ -19,11 +19,18 @@ export const GameContext = React.createContext();
 const GameContextProvider = ({ children }) => {
   const [context, changeContext] = useState(defaultContext);
 
+  const updateContext = updatedPart =>
+    changeContext({ ...context, ...updatedPart });
+
   // TODO: actions
-  const selectHorse = idx => {};
+  const selectHorse = positionObj => {
+    const avaliableMoves = gameService.getAvaliavbleMovesPositions(positionObj);
+    updateContext({ selectedHorse: { position: positionObj, avaliableMoves } });
+  };
 
-  const moveSelectedHorse = newIdx => {};
+  const moveSelectedHorse = newPositionObj => {};
 
+  // TODO
   const saveGame = () => {};
 
   const restartGame = () => changeContext(defaultContext);
