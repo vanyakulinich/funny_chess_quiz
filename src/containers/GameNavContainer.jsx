@@ -1,27 +1,42 @@
-import React from 'react';
-// import useGameStore from '../hooks/useGameStore';
-import useGameActions from '../hooks/useGameActions';
+import React from 'react'
+import useGameStore from '../hooks/useGameStore'
+import useGameActions from '../hooks/useGameActions'
 
-import GameNavButtonsGroup from '../components/buttons/GameNavButtonsGroup';
+import GameNavButtonsGroup from '../components/buttons/GameNavButtonsGroup'
 
 const GameNavContainer = () => {
-  // const { movesCount, isWinner } = useGameStore();
-  const { restartGame, saveGame } = useGameActions();
+  const { restartGame, saveGame, loadLastSavedGame } = useGameActions()
+  const { isWinner } = useGameStore()
 
-  //   TODO: add restart and save game buttons, moves count and components to style this stuff
+  const buttonsMap = {
+    restart: {
+      text: 'restart game',
+      handler: restartGame,
+    },
+    save: {
+      text: 'save game',
+      handler: saveGame,
+    },
+    load: {
+      text: 'load last saved game',
+      handler: loadLastSavedGame,
+    },
+  }
+
+  const clickHandler = buttonText => () => {
+    const button = Object.values(buttonsMap).find(el => el.text === buttonText)
+    if (button) button.handler()
+  }
+
   return (
-    <>
-      <GameNavButtonsGroup
-        restartText="restart game"
-        saveText="save game"
-        onRestartClick={restartGame}
-        onSaveClick={saveGame}
-      />
-      {/* TODO: remove it from here to GameMovesInfoContainer */}
-      {/* <div>MOVES: {movesCount}</div>
-      {isWinner && <div>You completed the quiz!</div>} */}
-    </>
-  );
-};
+    <GameNavButtonsGroup
+      restartText={buttonsMap.restart.text}
+      saveText={buttonsMap.save.text}
+      loadLastGameText={buttonsMap.load.text}
+      clickHandler={clickHandler}
+      isWinner={isWinner}
+    />
+  )
+}
 
-export default GameNavContainer;
+export default GameNavContainer

@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 const ButtonWrapper = styled.button`
   outline: none;
@@ -9,8 +9,8 @@ const ButtonWrapper = styled.button`
   border: none;
   text-transform: uppercase;
   cursor: pointer;
-  background-color: ${props => props.theme.color.steel};
-  color: ${props => props.theme.color.black};
+  background-color: ${props => props.theme.color[props.disabled ? 'steel50' : 'steel']};
+  color: ${props => props.theme.color[props.disabled ? 'black50' : 'black']};
   font-size: ${props => props.theme.font.size.s16};
   &:focus,
   &:active {
@@ -21,20 +21,26 @@ const ButtonWrapper = styled.button`
     color: ${props => props.theme.color.black50};
     background-color: ${props => props.theme.color.steel50};
   }
-`;
+`
 
-const GameNavButton = ({ text, onClick }) => {
-  return <ButtonWrapper onClick={onClick}>{text}</ButtonWrapper>;
-};
+const GameNavButton = ({ text, onClick, disabled }) => {
+  return (
+    <ButtonWrapper onClick={onClick} disabled={disabled}>
+      {text}
+    </ButtonWrapper>
+  )
+}
 
 GameNavButton.propTypes = {
   text: PropTypes.string,
-  onClick: PropTypes.func
-};
+  onClick: PropTypes.func,
+  disabled: PropTypes.bool,
+}
 
 GameNavButton.defaultProps = {
-  text: "",
-  onClick: () => {}
-};
+  text: '',
+  onClick: () => {},
+  disabled: false,
+}
 
-export default GameNavButton;
+export default GameNavButton
