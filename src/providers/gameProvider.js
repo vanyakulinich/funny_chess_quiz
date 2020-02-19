@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { GameService } from '../services/GameService'
+import { IndexDBService } from '../services/IndexDBService'
 import { HORSES } from '../constants/gameDetails'
 import { deepCopyArray } from '../utils/jsUtils'
 
-const gameService = new GameService()
+const gameService = new GameService(new IndexDBService())
 const defaultPositions = gameService.getDefaultPositions()
 
 export const GameContext = React.createContext()

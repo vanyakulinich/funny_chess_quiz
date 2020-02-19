@@ -2,7 +2,7 @@ import { compareMultiArraysOfStrings } from '../utils/jsUtils'
 import { WIN_GAME_POSITIONS, START_GAME_POSITIONS, AVALIABLE_MOVES_MAP } from '../constants/gameDetails'
 
 export class GameService {
-  constructor(/*TODO: inject storageService */) {
+  constructor(dbService) {
     this.defaultPositions = {
       positions: START_GAME_POSITIONS,
       selectedHorse: {
@@ -13,13 +13,20 @@ export class GameService {
       movesCount: 0,
       personalRecord: undefined,
     }
+    this.dbStorageName = 'quiz'
+    this.dbService = dbService.connect(this.dbStorageName)
+    // this.dbService.getDataFromDB()
   }
 
   getDefaultPositions() {
     return this.defaultPositions
   }
 
-  setStartPositionFromStorage() {
+  saveGamePositions() {
+    // TODO
+  }
+
+  loadGamePositions() {
     // TODO
   }
 

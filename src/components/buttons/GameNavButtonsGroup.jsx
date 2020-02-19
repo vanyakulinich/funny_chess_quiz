@@ -25,7 +25,7 @@ const GameNavButtonsGroup = ({ restartText, saveText, loadLastGameText, clickHan
       {restartText && <GameNavButton text={restartText} onClick={clickHandler(restartText)} />}
       {saveText && <GameNavButton text={saveText} onClick={saveBtnHandler} disabled={isWinner} />}
       <FullWidthBtnWrapper>
-        {loadLastGameText && <GameNavButton text={clickHandler(loadLastGameText)} />}
+        {loadLastGameText && <GameNavButton text={loadLastGameText} onClick={clickHandler(loadLastGameText)} />}
       </FullWidthBtnWrapper>
     </ButtonsGroupWrapper>
   )
