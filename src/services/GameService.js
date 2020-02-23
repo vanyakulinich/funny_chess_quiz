@@ -15,19 +15,28 @@ export class GameService {
     }
     this.dbStorageName = 'quiz'
     this.dbService = dbService.connect(this.dbStorageName)
-    // this.dbService.getDataFromDB()
   }
 
   getDefaultPositions() {
     return this.defaultPositions
   }
 
-  saveGamePositions() {
-    // TODO
+  async saveGameToDB(gameState) {
+    try {
+      const response = await this.dbService.storeDataInDB(gameState)
+      return { success: response }
+    } catch (err) {
+      return { error: 'scaveError' }
+    }
   }
 
-  loadGamePositions() {
-    // TODO
+  async loadGameFromDB() {
+    try {
+      const data = await this.dbService.getDataFromDB()
+      return !!data ? data : {}
+    } catch (err) {
+      return { error: 'loadError' }
+    }
   }
 
   getAvaliavbleMovesPositions(currentHorsePositionObj) {

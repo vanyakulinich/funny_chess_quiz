@@ -48,9 +48,23 @@ const GameContextProvider = ({ children }) => {
   }
 
   // TODO: saving current game in indexDB
-  const saveGame = () => {}
+  const saveGame = async () => {
+    const response = await gameService.saveGameToDB({ ...context })
+    if (response.error) {
+      // TODO: set user message to show error
+    } else {
+      // TODO set state flag to show user message
+    }
+  }
 
-  const loadLastSavedGame = () => {}
+  const loadLastSavedGame = async () => {
+    const gameState = await gameService.loadGameFromDB()
+    if (gameState.error) {
+      // TODO
+    } else {
+      updateContext({ ...gameState })
+    }
+  }
 
   const restartGame = () => changeContext({ ...defaultPositions })
 

@@ -19,7 +19,7 @@ const FullWidthBtnWrapper = styled.div`
 `
 
 const GameNavButtonsGroup = ({ restartText, saveText, loadLastGameText, clickHandler, isWinner }) => {
-  const saveBtnHandler = () => !isWinner && clickHandler(saveText)
+  const saveBtnHandler = () => !isWinner && clickHandler(saveText)()
   return (
     <ButtonsGroupWrapper>
       {restartText && <GameNavButton text={restartText} onClick={clickHandler(restartText)} />}
