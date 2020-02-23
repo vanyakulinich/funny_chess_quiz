@@ -16,6 +16,7 @@ export class IndexDBService {
   _openDBConnection() {
     try {
       const openDB = this.indexDB.open(this.dbName, this.dbVersion)
+      if (!openDB) throw new Error()
       openDB.onupgradeneeded = function(event) {
         let db = event.target.result
         if (!db.objectStoreNames.contains(this.storageName)) {

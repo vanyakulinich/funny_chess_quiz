@@ -1,21 +1,19 @@
-export const createArrWithValues = (val, len) => Array(len).fill(val);
+export const createArrWithValues = (val, len) => Array(len).fill(val)
 
-export const compareArraysOfStrings = (targetArr, comparedArr) =>
-  targetArr.toString() === comparedArr.toString();
+export const compareArraysOfStrings = (targetArr, comparedArr) => targetArr.toString() === comparedArr.toString()
 
 export const compareMultiArraysOfStrings = (targetArr, comparedArr) => {
-  return targetArr.every((el, idx) =>
-    compareArraysOfStrings(el, comparedArr[idx])
-  );
-};
+  return targetArr.every((el, idx) => compareArraysOfStrings(el, comparedArr[idx]))
+}
 
 export const deepCopyArray = targetArr => {
-  let copiedArr = [];
+  let copiedArr = []
   for (const element of targetArr) {
-    copiedArr = [
-      ...copiedArr,
-      Array.isArray(element) ? deepCopyArray(element) : element
-    ];
+    copiedArr = [...copiedArr, Array.isArray(element) ? deepCopyArray(element) : element]
   }
-  return copiedArr;
-};
+  return copiedArr
+}
+
+export const delay = (fn, time) => {
+  setTimeout(fn, time)
+}

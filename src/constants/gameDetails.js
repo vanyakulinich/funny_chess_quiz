@@ -1,26 +1,27 @@
-export const DEFAULT_WIN_RECORD = 20;
+export const DEFAULT_WIN_RECORD = 20
+export const ERROR_RESET_TIME = 6000 // 6sec
 
 export const HORSES = {
-  black: "black",
-  white: "white",
-  noHorse: ""
-};
+  black: 'black',
+  white: 'white',
+  noHorse: '',
+}
 
-const { black, white, noHorse } = HORSES;
+const { black, white, noHorse } = HORSES
 
 export const START_GAME_POSITIONS = Object.freeze([
   [white, white, white],
   [noHorse, noHorse, noHorse],
   [noHorse, noHorse, noHorse],
-  [black, black, black]
-]);
+  [black, black, black],
+])
 
 export const WIN_GAME_POSITIONS = Object.freeze([
   [black, black, black],
   [noHorse, noHorse, noHorse],
   [noHorse, noHorse, noHorse],
-  [white, white, white]
-]);
+  [white, white, white],
+])
 
 // prettier-ignore
 export const AVALIABLE_MOVES_MAP = Object.freeze({
@@ -39,3 +40,8 @@ export const AVALIABLE_MOVES_MAP = Object.freeze({
   "31": [[1,0], [1,2]],
   "32": [[2,0], [1,1]]
 });
+
+export const MESSAGES = {
+  saveSuccess: 'The game was succesfully saved',
+  loadSuccess: 'The game was succesfully loaded',
+}
