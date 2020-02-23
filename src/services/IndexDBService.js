@@ -13,26 +13,31 @@ export class IndexDBService {
     return indexDB
   }
 
-  async _openDBConnection(callbacks) {
-    const openDB = this.indexDB.open(this.dbName, this.dbVersion)
-    openDB.onupgradeneeded = function(event) {
-      let db = event.target.result
-      if (!db.objectStoreNames.contains(this.storageName)) {
-        db.createObjectStore(this.storageName, { autoIncrement: true })
+  _openDBConnection() {
+    try {
+      const openDB = this.indexDB.open(this.dbName, this.dbVersion)
+      openDB.onupgradeneeded = function(event) {
+        let db = event.target.result
+        if (!db.objectStoreNames.contains(this.storageName)) {
+          db.createObjectStore(this.storageName, { autoIncrement: true })
+        }
       }
-    }
-    openDB.onerror = function(err) {
-      console.log({ err })
-    }
-    openDB.onsuccess = event => {
-      this.activeConnection = event.target.result
+      openDB.onerror = function(err) {
+        throw new Error()
+      }
+      openDB.onsuccess = event => {
+        this.activeConnection = event.target.result
+      }
+      return {}
+    } catch (err) {
+      return { isError: true }
     }
   }
 
-  connect(storageName, callbacks) {
+  connect(storageName) {
     this.storageName = storageName
-    this._openDBConnection(storageName, callbacks)
-    return this
+    const response = this._openDBConnection()
+    return response.error ? response : this
   }
 
   async getDBStore(storageName, actionType) {
@@ -59,7 +64,7 @@ export class IndexDBService {
     try {
       return await returnData
     } catch (er) {
-      throw Error()
+      return { isError: true }
     }
   }
 
@@ -75,7 +80,7 @@ export class IndexDBService {
       }
       return true
     } catch (err) {
-      throw new Error()
+      return { isError: true }
     }
   }
 

@@ -14,29 +14,28 @@ export class GameService {
       personalRecord: undefined,
     }
     this.dbStorageName = 'quiz'
-    this.dbService = dbService.connect(this.dbStorageName)
+    this.dbService = dbService
   }
 
   getDefaultPositions() {
     return this.defaultPositions
   }
 
+  connectToStorage() {
+    const response = this.dbService.connect(this.dbStorageName)
+    if (response.isError) return { error: 'connectFail' }
+    this.dbService = response
+    return {}
+  }
+
   async saveGameToDB(gameState) {
-    try {
-      const response = await this.dbService.storeDataInDB(gameState)
-      return { success: response }
-    } catch (err) {
-      return { error: 'scaveError' }
-    }
+    const response = await this.dbService.storeDataInDB(gameState)
+    return response.isError ? { error: 'saveError' } : { success: response }
   }
 
   async loadGameFromDB() {
-    try {
-      const data = await this.dbService.getDataFromDB()
-      return !!data ? data : {}
-    } catch (err) {
-      return { error: 'loadError' }
-    }
+    const response = await this.dbService.getDataFromDB()
+    return response.isError ? { error: 'loadFail' } : response
   }
 
   getAvaliavbleMovesPositions(currentHorsePositionObj) {
