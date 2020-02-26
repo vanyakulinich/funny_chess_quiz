@@ -27,11 +27,11 @@ export class GameService {
     return { defaultPositions: this.defaultPositions, defaultDBStatusState: this.defaultDBStatusState }
   }
 
-  connectToStorage() {
-    const response = this.dbService.connect(this.dbStorageName)
+  async connectToStorage() {
+    const response = await this.dbService.connect(this.dbStorageName)
     if (response.isError) return { error: ERRORS_NAMES.connect }
     this.dbService = response
-    return {}
+    return await this.loadGameFromDB()
   }
 
   async saveGameToDB(gameState) {
@@ -41,14 +41,14 @@ export class GameService {
 
   async loadGameFromDB() {
     const response = await this.dbService.getDataFromDB()
+    if (!response) return {}
     return response.isError ? { error: ERRORS_NAMES.load } : response
   }
 
-  async savePersonalRecordInDB(personalRecord) {
-    // TODO
+  async updatePersonalRecordInDB(newRecord) {
     const dbData = await this.loadGameFromDB()
-    if (dbData.error) return // TODO: handle this properly later
-    await this.saveGameToDB({ ...dbData, personalRecord })
+    if (dbData.error || dbData.personalRecord <= newRecord) return
+    await this.saveGameToDB({ ...dbData, personalRecord: newRecord })
   }
 
   selectHorse(positionObj, selectedHorse) {
@@ -78,10 +78,9 @@ export class GameService {
     const newPositions = deepCopyArray(context.positions)
     newPositions[curRow][curCell] = HORSES.noHorse
     newPositions[toRow][toCell] = horseColor
-
     const isWinner = this.checkWinGame(newPositions)
-    // TODO: if isWinner => UPDATE personal record in db
     const movesCount = context.movesCount + 1
+    if (isWinner) this.updatePersonalRecordInDB(movesCount)
     return {
       positions: [...newPositions],
       selectedHorse: { ...this.defaultPositions.selectedHorse },

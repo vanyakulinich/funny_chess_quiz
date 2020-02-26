@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import { GameService } from '../services/GameService'
 import { IndexDBService } from '../services/IndexDBService'
@@ -23,15 +23,17 @@ const GameContextProvider = ({ children }) => {
   const restoreDBStatusStateToDefaultWithDelay = () =>
     delay(() => updateDBStatusState(defaultDBStatusState), ERROR_RESET_TIME)
   // mount
-  useEffect(() => {
-    const response = gameService.connectToStorage()
-    if (response.error) {
-      // if db connection error, no restore from error, no possibility to use db until reload page
-      changeDBStatusState(dbStatusState => ({ ...dbStatusState, error: response.error }))
-    } else {
-      const { personalRecord } = gameService.loadGameFromDB()
-      if (personalRecord) updateContext({ personalRecord })
-    }
+  useLayoutEffect(() => {
+    ;(async () => {
+      const dbStoredGame = await gameService.connectToStorage()
+      if (dbStoredGame.error) {
+        // if db connection error, no restore from error, no possibility to use db until reload page
+        changeDBStatusState(dbStatusState => ({ ...dbStatusState, error: dbStoredGame.error }))
+      } else {
+        const { personalRecord } = dbStoredGame
+        if (personalRecord) updateContext({ personalRecord })
+      }
+    })()
   }, [])
 
   // handlers
@@ -57,7 +59,7 @@ const GameContextProvider = ({ children }) => {
     }
   }
 
-  const restartGame = () => changeContext({ ...defaultPositions })
+  const restartGame = () => changeContext({ ...defaultPositions, personalRecord: context.personalRecord })
 
   const currentContext = {
     store: { ...context, dbStatusState },

@@ -13,32 +13,31 @@ export class IndexDBService {
     return indexDB
   }
 
-  _openDBConnection() {
-    try {
-      const openDB = this.indexDB.open(this.dbName, this.dbVersion)
-      if (!openDB) throw new Error()
+  _openDBConnection(storageName) {
+    const service = this
+    return new Promise((resolve, reject) => {
+      const openDB = this.indexDB.open(service.dbName, service.dbVersion)
+      if (!openDB) reject({ isError: true })
       openDB.onupgradeneeded = function(event) {
         let db = event.target.result
-        if (!db.objectStoreNames.contains(this.storageName)) {
-          db.createObjectStore(this.storageName, { autoIncrement: true })
+        if (!db.objectStoreNames.contains(storageName)) {
+          db.createObjectStore(storageName, { autoIncrement: true })
         }
       }
       openDB.onerror = function(err) {
-        throw new Error()
+        reject({ isError: true })
       }
       openDB.onsuccess = event => {
         this.activeConnection = event.target.result
+        resolve({ isError: false })
       }
-      return {}
-    } catch (err) {
-      return { isError: true }
-    }
+    })
   }
 
-  connect(storageName) {
+  async connect(storageName) {
     this.storageName = storageName
-    const response = this._openDBConnection()
-    return response.error ? response : this
+    const response = await this._openDBConnection(storageName)
+    return response.isError ? response : this
   }
 
   async getDBStore(storageName, actionType) {
@@ -47,26 +46,19 @@ export class IndexDBService {
       const store = await transaction.objectStore(storageName)
       return { store }
     } catch (err) {
-      return null
+      return { isError: true }
     }
   }
 
   async getDataFromDB(key = null) {
     const { store } = await this.getDBStore(this.storageName, 'readonly')
-    let returnData = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const firstIdx = 1
+      if (!store) reject({ isError: true })
       const dbResponse = !key ? store.get(firstIdx) : store.get(key)
-      dbResponse.onsuccess = e => {
-        returnData = e.target.result
-        resolve(returnData)
-      }
-      dbResponse.onerror = e => reject()
+      dbResponse.onsuccess = e => resolve(e.target.result)
+      dbResponse.onerror = e => reject({ isError: true })
     })
-    try {
-      return await returnData
-    } catch (er) {
-      return { isError: true }
-    }
   }
 
   async storeDataInDB(data, isAddNew = false) {
@@ -84,6 +76,4 @@ export class IndexDBService {
       return { isError: true }
     }
   }
-
-  // another methods to interact with db can be added, e.g. deleteDB, deleteFromDB and so on..
 }
