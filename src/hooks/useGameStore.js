@@ -14,6 +14,7 @@ const useGameStore = () => {
     personalRecord: useMemo(() => personalRecord, [personalRecord]),
     dbError: useMemo(() => dbStatusState.error, [dbStatusState.error]),
     dbOperationSuccess: useMemo(() => dbStatusState.success, [dbStatusState.success]),
+    dbMessage: useMemo(() => dbStatusState.message, [dbStatusState.message]),
   }
 }
 

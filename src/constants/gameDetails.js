@@ -1,5 +1,5 @@
 export const DEFAULT_WIN_RECORD = 20
-export const ERROR_RESET_TIME = 6000 // 6sec
+export const DEFAULT_RESET_TIME = 2500 // 2.5sec
 
 export const HORSES = {
   black: 'black',
@@ -41,7 +41,13 @@ export const AVALIABLE_MOVES_MAP = Object.freeze({
   "32": [[2,0], [1,1]]
 });
 
-export const MESSAGES = {
-  saveSuccess: 'The game was succesfully saved',
-  loadSuccess: 'The game was succesfully loaded',
+export const SUCCESS_MESSAGES = {
+  save: 'The game was succesfully saved',
+  load: 'The game was succesfully loaded',
+}
+
+export const ERROR_MESSAGES = {
+  connect: "Error occured when connecting to database. Sorry, but you can't load and save games",
+  save: 'Error occured when saving the game. Please try again later',
+  load: 'Error occured when loading the game. Please try again later',
 }

@@ -3,15 +3,13 @@ import React, { useState, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import { GameService } from '../services/GameService'
 import { IndexDBService } from '../services/IndexDBService'
-import { ERROR_RESET_TIME } from '../constants/gameDetails'
+import { DEFAULT_RESET_TIME, SUCCESS_MESSAGES } from '../constants/gameDetails'
 import { delay } from '../utils/jsUtils'
 
 const gameService = new GameService(new IndexDBService())
 const { defaultPositions, defaultDBStatusState } = gameService.getDefaultGameState()
 
 export const GameContext = React.createContext()
-
-// TODO: HANDLE ERRORS AND RECORD STATS
 
 const GameContextProvider = ({ children }) => {
   // game state
@@ -20,15 +18,19 @@ const GameContextProvider = ({ children }) => {
   // dbinteractionsState
   const [dbStatusState, changeDBStatusState] = useState({ ...defaultDBStatusState })
   const updateDBStatusState = updatedPart => changeDBStatusState({ ...dbStatusState, ...updatedPart })
-  const restoreDBStatusStateToDefaultWithDelay = () =>
-    delay(() => updateDBStatusState(defaultDBStatusState), ERROR_RESET_TIME)
+  const restoreDBStatusStateToDefaultWithDelay = async () =>
+    await delay(() => updateDBStatusState(defaultDBStatusState), DEFAULT_RESET_TIME)
   // mount
   useLayoutEffect(() => {
     ;(async () => {
       const dbStoredGame = await gameService.connectToStorage()
       if (dbStoredGame.error) {
-        // if db connection error, no restore from error, no possibility to use db until reload page
-        changeDBStatusState(dbStatusState => ({ ...dbStatusState, error: dbStoredGame.error }))
+        changeDBStatusState(dbStatusState => ({
+          ...dbStatusState,
+          error: dbStoredGame.error,
+          message: dbStoredGame.message,
+        }))
+        await restoreDBStatusStateToDefaultWithDelay()
       } else {
         const { personalRecord } = dbStoredGame
         if (personalRecord) updateContext({ personalRecord })
@@ -44,17 +46,19 @@ const GameContextProvider = ({ children }) => {
 
   const saveGame = async () => {
     const response = await gameService.saveGameToDB({ ...context })
-    const { error } = response
-    updateDBStatusState(error ? { error } : { success: true })
-    restoreDBStatusStateToDefaultWithDelay()
+    const { error, success, message } = response
+    updateDBStatusState(error ? { error, message } : { success, message })
+    await restoreDBStatusStateToDefaultWithDelay()
   }
 
   const loadLastSavedGame = async () => {
     const gameState = await gameService.loadGameFromDB()
     if (gameState.error) {
-      updateDBStatusState({ error: gameState.error })
-      restoreDBStatusStateToDefaultWithDelay()
+      updateDBStatusState({ error: gameState.error, message: gameState.message })
+      await restoreDBStatusStateToDefaultWithDelay()
     } else {
+      updateDBStatusState({ success: true, message: SUCCESS_MESSAGES.load })
+      await restoreDBStatusStateToDefaultWithDelay()
       updateContext({ ...gameState })
     }
   }
@@ -65,7 +69,7 @@ const GameContextProvider = ({ children }) => {
     store: { ...context, dbStatusState },
     actions: { selectHorse, moveSelectedHorse, saveGame, restartGame, loadLastSavedGame },
   }
-  console.log({ currentContext })
+
   // provider wrapper
   return <GameContext.Provider value={currentContext}>{children}</GameContext.Provider>
 }

@@ -1,6 +1,12 @@
 import { compareMultiArraysOfStrings, deepCopyArray } from '../utils/jsUtils'
-import { WIN_GAME_POSITIONS, START_GAME_POSITIONS, AVALIABLE_MOVES_MAP, HORSES } from '../constants/gameDetails'
-import { ERRORS_NAMES } from '../constants/gameErrors'
+import {
+  WIN_GAME_POSITIONS,
+  START_GAME_POSITIONS,
+  AVALIABLE_MOVES_MAP,
+  HORSES,
+  ERROR_MESSAGES,
+  SUCCESS_MESSAGES,
+} from '../constants/gameDetails'
 
 export class GameService {
   constructor(dbService) {
@@ -18,8 +24,9 @@ export class GameService {
       personalRecord: undefined,
     }
     this.defaultDBStatusState = {
-      error: '',
+      error: false,
       success: false,
+      message: '',
     }
   }
 
@@ -29,20 +36,22 @@ export class GameService {
 
   async connectToStorage() {
     const response = await this.dbService.connect(this.dbStorageName)
-    if (response.isError) return { error: ERRORS_NAMES.connect }
+    if (response.isError) return { error: true, message: ERROR_MESSAGES.connect }
     this.dbService = response
     return await this.loadGameFromDB()
   }
 
   async saveGameToDB(gameState) {
     const response = await this.dbService.storeDataInDB(gameState)
-    return response.isError ? { error: ERRORS_NAMES.save } : { success: response }
+    return response.isError
+      ? { error: true, message: ERROR_MESSAGES.save }
+      : { success: !!response, message: SUCCESS_MESSAGES.save }
   }
 
   async loadGameFromDB() {
     const response = await this.dbService.getDataFromDB()
     if (!response) return {}
-    return response.isError ? { error: ERRORS_NAMES.load } : response
+    return response.isError ? { error: true, message: ERROR_MESSAGES.load } : response
   }
 
   async updatePersonalRecordInDB(newRecord) {

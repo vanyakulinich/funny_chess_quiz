@@ -58,7 +58,7 @@ export class IndexDBService {
       const dbResponse = !key ? store.get(firstIdx) : store.get(key)
       dbResponse.onsuccess = e => resolve(e.target.result)
       dbResponse.onerror = e => reject({ isError: true })
-    })
+    }).catch(er => er)
   }
 
   async storeDataInDB(data, isAddNew = false) {

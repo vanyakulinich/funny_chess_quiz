@@ -53,4 +53,7 @@ body {
     width: 100vw;
     ${gameTheme.flex.centerAll}
 }
+#root {
+  position: relative;
+}
 `

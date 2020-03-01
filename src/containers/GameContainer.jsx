@@ -1,7 +1,9 @@
 import React from 'react'
+
 import GameFieldContainer from './GameFieldContainer'
 import GameNavContainer from './GameNavContainer'
 import GameMovesInfoContainer from './GameMovesInfoContainer'
+import GameMessagesContainer from './GameMessagesContainer'
 
 const GameContainer = () => {
   return (
@@ -9,6 +11,7 @@ const GameContainer = () => {
       <GameMovesInfoContainer />
       <GameFieldContainer />
       <GameNavContainer />
+      <GameMessagesContainer />
     </>
   )
 }

@@ -15,5 +15,10 @@ export const deepCopyArray = targetArr => {
 }
 
 export const delay = (fn, time) => {
-  setTimeout(fn, time)
+  return new Promise(resolve => {
+    setTimeout(() => {
+      fn()
+      resolve()
+    }, time)
+  })
 }

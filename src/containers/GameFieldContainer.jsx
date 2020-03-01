@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import shortid from 'shortid'
 
-import GameMessagesContainer from './GameMessagesContainer'
 import useGameStore from '../hooks/useGameStore'
 import useGameActions from '../hooks/useGameActions'
 import GameFieldRow from '../components/gameField/GameFieldRow'
@@ -63,7 +62,6 @@ const GameFieldContainer = () => {
           </GameFieldRow>
         )
       })}
-      <GameMessagesContainer />
     </MainWrapper>
   )
 }

@@ -1,9 +1,11 @@
 import React from 'react'
+import useGameStore from '../hooks/useGameStore'
 
-// TODO: design container for all messages (success and errors)
+import DefaultPopup from '../components/popups/DefaultPopup'
+
 const GameMessagesContainer = () => {
-  return null
-  // return <div>messages will be here</div>
+  const { dbError, dbOperationSuccess, dbMessage } = useGameStore()
+  return dbError || dbOperationSuccess ? <DefaultPopup text={dbMessage} /> : null
 }
 
 export default GameMessagesContainer
