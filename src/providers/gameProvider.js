@@ -17,20 +17,20 @@ const GameContextProvider = ({ children }) => {
   const updateContext = updatedPart => changeContext({ ...context, ...updatedPart })
   // dbinteractionsState
   const [dbStatusState, changeDBStatusState] = useState({ ...defaultDBStatusState })
-  const updateDBStatusState = updatedPart => changeDBStatusState({ ...dbStatusState, ...updatedPart })
-  const restoreDBStatusStateToDefaultWithDelay = async () =>
-    await delay(() => updateDBStatusState(defaultDBStatusState), DEFAULT_RESET_TIME)
+  const updateDBStatusState = async updatedPart => {
+    changeDBStatusState({ ...dbStatusState, ...updatedPart })
+    await delay(() => changeDBStatusState(defaultDBStatusState), DEFAULT_RESET_TIME)
+  }
+
   // mount
   useLayoutEffect(() => {
     ;(async () => {
       const dbStoredGame = await gameService.connectToStorage()
       if (dbStoredGame.error) {
-        changeDBStatusState(dbStatusState => ({
-          ...dbStatusState,
+        await updateDBStatusState({
           error: dbStoredGame.error,
           message: dbStoredGame.message,
-        }))
-        await restoreDBStatusStateToDefaultWithDelay()
+        })
       } else {
         const { personalRecord } = dbStoredGame
         if (personalRecord) updateContext({ personalRecord })
@@ -47,19 +47,16 @@ const GameContextProvider = ({ children }) => {
   const saveGame = async () => {
     const response = await gameService.saveGameToDB({ ...context })
     const { error, success, message } = response
-    updateDBStatusState(error ? { error, message } : { success, message })
-    await restoreDBStatusStateToDefaultWithDelay()
+    await updateDBStatusState(error ? { error, message } : { success, message })
   }
 
   const loadLastSavedGame = async () => {
     const gameState = await gameService.loadGameFromDB()
     if (gameState.error) {
-      updateDBStatusState({ error: gameState.error, message: gameState.message })
-      await restoreDBStatusStateToDefaultWithDelay()
+      await updateDBStatusState({ error: gameState.error, message: gameState.message })
     } else {
-      updateDBStatusState({ success: true, message: SUCCESS_MESSAGES.load })
-      await restoreDBStatusStateToDefaultWithDelay()
       updateContext({ ...gameState })
+      await updateDBStatusState({ success: true, message: SUCCESS_MESSAGES.load })
     }
   }
 
