@@ -39,10 +39,8 @@ export const gameTheme = {
 }
 
 export const GlobalGameStyles = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css?family=Lemonada&display=swap');
-
 * {
-    font-family: 'Lemonada', cursive;
+    font-family: 'Ubuntu';
     color: ${gameTheme.color.steel}
 }
 body {
