@@ -28,6 +28,7 @@ export const gameTheme = {
       s14: '14px',
       s16: '16px',
       s20: '20px',
+      s25: '25px',
     },
     weight: {
       w3: '300',

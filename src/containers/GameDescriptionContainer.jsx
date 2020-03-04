@@ -1,11 +1,23 @@
 import React from 'react'
 import styled from 'styled-components'
+import TitleDescription from '../components/gameDescription/TitleDescription'
+import GameFullDescription from '../components/gameDescription/GameFullDescription'
 
-const ContainerWrapper = styled.div``
+const ContainerWrapper = styled.div`
+  position: absolute;
+  top: -25%;
+  width: 80vw;
+  left: -30%;
+  max-width: 600px;
+`
 
-// TODO: add short description and popup with detailed desc and screenshots
 const GameDescriptionContainer = () => {
-  return <ContainerWrapper>DESCRIPTION</ContainerWrapper>
+  return (
+    <ContainerWrapper>
+      <TitleDescription />
+      <GameFullDescription />
+    </ContainerWrapper>
+  )
 }
 
 export default GameDescriptionContainer
