@@ -2,7 +2,6 @@
   "name": "funny-chess-quiz",
   "version": "0.1.0",
   "private": false,
-  "homepage": "http://gitname.github.io/funny_chess_quiz",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
