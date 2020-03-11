@@ -1,13 +1,15 @@
 {
   "name": "funny-chess-quiz",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "homepage": "http://gitname.github.io/funny_chess_quiz",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "gh-pages": "^2.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -21,7 +23,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "serve:prod": "node server.js"
+    "serve:prod": "node server.js",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
