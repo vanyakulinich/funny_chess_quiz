@@ -14,13 +14,14 @@ const CongratsWrapper = styled.div`
   left: -9px;
   width: 340px;
 `
-// TODO: add record info here
+
 const GameMovesInfoContainer = () => {
   const { movesCount, isWinner, personalRecord } = useGameStore()
   const winStr = 'Congrats! You completed the quiz!'
   const bestSolutionStr = `BEST SOLUTION: ${DEFAULT_WIN_RECORD} moves`
   const userBestSolutionStr = `YOUR BEST SOLUTION: ${personalRecord ? `${personalRecord} moves` : 'no solutions yet'}`
   const movesStr = `MOVES: ${movesCount}`
+
   return (
     <MovesInfoWrapper>
       {isWinner && <CongratsWrapper>{winStr}</CongratsWrapper>}
