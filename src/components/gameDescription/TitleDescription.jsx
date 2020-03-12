@@ -4,6 +4,9 @@ import styled from 'styled-components'
 const TitleWrapper = styled.div`
   font-size: ${props => props.theme.font.size.s25};
   font-weight: ${props => props.theme.font.weight.w9};
+  @media screen and (max-width: 550px) {
+    display: none;
+  }
 `
 
 const TitleDescription = () => {

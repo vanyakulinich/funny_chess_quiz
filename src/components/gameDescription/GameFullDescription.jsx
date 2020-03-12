@@ -7,13 +7,21 @@ import winQuiz from '../../images/winQuiz.png'
 
 const DescWrapper = styled.div`
   position: absolute;
-  bottom: -25px;
+  bottom: -35px;
   right: 0;
 `
 const ImgWrapper = styled.img`
   height: 330px;
   width: 260px;
   margin: 20px;
+  @media screen and (max-width: 730px) {
+    height: 160px;
+    width: 130px;
+  }
+  @media screen and (max-width: 550px) {
+    height: 130px;
+    width: 90px;
+  }
 `
 
 const DescContainerWrapper = styled.div`
@@ -29,11 +37,17 @@ const DescContainerWrapper = styled.div`
 const ArrowWrapper = styled.span`
   font-size: ${props => props.theme.font.size.s25};
   color: ${props => props.theme.color.green};
+  @media screen and (max-width: 730px) {
+    font-size: ${props => props.theme.font.size.s16};
+  }
 `
 
 const DescTextWrapper = styled.h3`
   width: 85%;
   font-size: ${props => props.theme.font.size.s25};
+  @media screen and (max-width: 730px) {
+    font-size: ${props => props.theme.font.size.s16};
+  }
 `
 
 const ImagesWrapper = styled.div`
@@ -50,6 +64,11 @@ const ExampleImgContainer = styled.div`
     left: 36%;
     font-size: ${props => props.theme.font.size.s25};
     color: ${props => props.theme.color.green};
+  }
+  @media screen and (max-width: 550px) {
+    &::before {
+      font-size: ${props => props.theme.font.size.s16};
+    }
   }
 `
 

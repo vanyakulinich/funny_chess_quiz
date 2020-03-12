@@ -5,10 +5,14 @@ import GameFullDescription from '../components/gameDescription/GameFullDescripti
 
 const ContainerWrapper = styled.div`
   position: absolute;
-  top: -25%;
+  top: 10px;
   width: 80vw;
   left: -30%;
   max-width: 600px;
+  @media screen and (max-width: 550px) {
+    position: absolute;
+    left: -4px;
+  }
 `
 
 const GameDescriptionContainer = () => {

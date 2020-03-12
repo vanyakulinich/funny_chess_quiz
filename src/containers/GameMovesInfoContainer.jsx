@@ -10,8 +10,8 @@ const MovesInfoWrapper = styled.div`
 const CongratsWrapper = styled.div`
   font-size: ${props => props.theme.font.size.s20};
   position: absolute;
-  top: -28px;
-  left: -9px;
+  top: 230px;
+  left: 0;
   width: 340px;
 `
 
