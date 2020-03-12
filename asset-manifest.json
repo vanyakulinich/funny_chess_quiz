@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/funny_chess_quiz/static/js/main.40acd6e8.chunk.js",
-    "main.js.map": "/funny_chess_quiz/static/js/main.40acd6e8.chunk.js.map",
+    "main.js": "/funny_chess_quiz/static/js/main.7e71acd4.chunk.js",
+    "main.js.map": "/funny_chess_quiz/static/js/main.7e71acd4.chunk.js.map",
     "runtime-main.js": "/funny_chess_quiz/static/js/runtime-main.2d22d664.js",
     "runtime-main.js.map": "/funny_chess_quiz/static/js/runtime-main.2d22d664.js.map",
     "static/js/2.f60ca78f.chunk.js": "/funny_chess_quiz/static/js/2.f60ca78f.chunk.js",
     "static/js/2.f60ca78f.chunk.js.map": "/funny_chess_quiz/static/js/2.f60ca78f.chunk.js.map",
     "index.html": "/funny_chess_quiz/index.html",
-    "precache-manifest.89a5ef5f32bca10ea46941bbee976670.js": "/funny_chess_quiz/precache-manifest.89a5ef5f32bca10ea46941bbee976670.js",
+    "precache-manifest.a14d6516903427663362c1bf9d38da6c.js": "/funny_chess_quiz/precache-manifest.a14d6516903427663362c1bf9d38da6c.js",
     "service-worker.js": "/funny_chess_quiz/service-worker.js",
     "static/js/2.f60ca78f.chunk.js.LICENSE.txt": "/funny_chess_quiz/static/js/2.f60ca78f.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.2d22d664.js",
     "static/js/2.f60ca78f.chunk.js",
-    "static/js/main.40acd6e8.chunk.js"
+    "static/js/main.7e71acd4.chunk.js"
   ]
 }

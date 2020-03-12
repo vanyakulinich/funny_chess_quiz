@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "07d2306f3040700fad2d60987aca837d",
+    "revision": "d153efd70510cd4eb23d25e21bf001b0",
     "url": "/funny_chess_quiz/index.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/funny_chess_quiz/static/js/2.f60ca78f.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "4ac1508523652e798828",
-    "url": "/funny_chess_quiz/static/js/main.40acd6e8.chunk.js"
+    "revision": "e24287aad95a3141a978",
+    "url": "/funny_chess_quiz/static/js/main.7e71acd4.chunk.js"
   },
   {
     "revision": "599a33b55023988bca80",
